@@ -2,6 +2,7 @@ import UserModel from "../../../../DB/model/User.model.js";
 import jwt from "jsonwebtoken";
 import { compare, hash } from "../../../utils/HashAndCompare.js";
 import * as dotenv from "dotenv";
+import { generateToken } from "../../../utils/GenerateAndVerifyToken.js";
 dotenv.config();
 const { JWT_SECRET_KEY } = process.env;
 
@@ -57,18 +58,38 @@ export const login = async (req, res, next) => {
       return res.status(404).json({ message: "Invalid Email or password" });
     }
 
-    const token = jwt.sign(
-      {
-        id: user._id,
-        name: user.username,
-        email: user.email,
-        role: user.role,
-        profilePicture: user.profilePicture,
-      },
 
-      JWT_SECRET_KEY,
-      { expiresIn: "1hr" }
-    );
+
+    const token = generateToken({
+
+
+payload:    {
+      id: user._id,
+      name: user.username,
+      email: user.email,
+      role: user.role,
+      profilePicture: user.profilePicture,
+      isLoggedIn:true,
+    },
+    expiresIn: 60 *60 *24*30
+
+    })
+
+
+
+    // const token = jwt.sign(
+    //   {
+    //     id: user._id,
+    //     name: user.username,
+    //     email: user.email,
+    //     role: user.role,
+    //     profilePicture: user.profilePicture,
+    //     isLoggedIn:true,
+    //   },
+
+    //   JWT_SECRET_KEY,
+    //   { expiresIn: "1hr" }
+    // );
 
     return res.status(200).json({ message: "Successfully Logged In", token });
   } catch (err) {
@@ -113,6 +134,6 @@ export const resetpassword = async (req, res, next) => {
       .status(200)
       .json({ message: "Congratulation ,Your Password Changed " });
   } catch (err) {
-    return res.status(404).json({ message: "Catch Error", err });
+    return res.status(404).json({ message: "Catch Error", err});
   }
 };

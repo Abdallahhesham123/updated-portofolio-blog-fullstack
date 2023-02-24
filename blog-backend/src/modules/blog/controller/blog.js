@@ -122,11 +122,11 @@ export const addComment =  async (req, res, next) => {
     try {
       
         const { title , body } = req.body;
-        let UserExist = await UserModel.findById({_id: req.user.id, isDeleted: false})
+        let UserExist = await UserModel.findById({_id: req.user._id, isDeleted: false})
         if(UserExist === null){
          return res.status(404).json({ message: "This user isnot Exist Try again"})
         }else{
-          const Post = await CommentModel.create({ title,body ,User_Id:req.user.id});
+          const Post = await CommentModel.create({ title,body ,User_Id:req.user._id});
           return res.status(200).json({ message: "Your Post is added Successfully", Post });
     
         }
@@ -159,12 +159,12 @@ export const updateComment =  async (req, res, next) => {
         const {id}= req.params
         // const { user_Id } = req.query;
         const { body ,title } = req.body;
-        let UserExist = await UserModel.findById({_id:req.user.id  , isDeleted: false})
+        let UserExist = await UserModel.findById({_id:req.user._id  , isDeleted: false})
         
         if(UserExist === null){
           return res.status(404).json({ message: "This user isnot Exist in Database"})
         }
-        const post = await CommentModel.findOneAndUpdate({_id:id ,User_Id:req.user.id},{ body ,title },{new:true})
+        const post = await CommentModel.findOneAndUpdate({_id:id ,User_Id:req.user._id},{ body ,title },{new:true})
         .populate({path: "User_Id" ,select:"userName  -_id" });
         return post ? res.status(200).json({ message: "This comment updated successfully", post })
         : res.status(404).json({ message: "This post not found"})
@@ -183,12 +183,12 @@ export const deleteComment =  async (req, res, next) => {
         const {id}= req.params
         // const { user_Id } = req.query;
         
-        let UserExist = await UserModel.findById({_id:req.user.id  , isDeleted: false})
+        let UserExist = await UserModel.findById({_id:req.user._id  , isDeleted: false})
         
         if(UserExist === null){
           return res.json({ message: "This user isnot Exist in Database"})
         }
-        const comments = await CommentModel.findOneAndDelete({_id:id ,User_Id:req.user.id })
+        const comments = await CommentModel.findOneAndDelete({_id:id ,User_Id:req.user._id })
         return comments ? res.json({ message: "This comment deleted successfully" })
         : res.json({ message: "This comment not found"})
      ;

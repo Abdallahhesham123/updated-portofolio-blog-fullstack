@@ -227,7 +227,13 @@ title? <>
                 );
               })
             ) : (
-              <CircularProgress size={120} />
+              <>
+        <Typography variant="h4" component="h1">
+                There is no data found
+        </Typography>
+        
+              <CircularProgress size={50} />
+              </>
             )}
           </Grid>
           <Grid item xs={12}>

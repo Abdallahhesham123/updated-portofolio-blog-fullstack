@@ -64,7 +64,7 @@ const Profile = (props) => {
     const FetchUsers = async (id) => {
 
       const res = await requests.getOneuser(id);
-      // console.log(res);
+      console.log(res.message);
       setUser(res.user);
     };
 

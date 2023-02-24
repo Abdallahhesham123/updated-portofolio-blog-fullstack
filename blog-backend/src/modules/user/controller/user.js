@@ -5,7 +5,7 @@ export const getUserModule = async (req, res, next) => {
   try {
     const users = await UserModel.find({ 
       isDeleted: false ,
-      "_id": {  $ne: `${req.user.id}` } 
+      "_id": {  $ne: `${req.user._id}` } 
     
     });
     return res.json({ message: "Done", users });
@@ -25,7 +25,7 @@ export const findByIdAndUpdate = async (req, res, next) => {
     // const { id } = req.params;
  
     const user = await UserModel.findByIdAndUpdate(
-      { _id:req.user.id, isDeleted: false },
+      { _id:req.user._id, isDeleted: false },
       req.body,
       { new: true }
     );
