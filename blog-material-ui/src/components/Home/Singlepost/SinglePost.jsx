@@ -46,6 +46,8 @@ const SinglePost = (props) => {
     };
     setTimeout(fetchPost, 100);
   }, []);
+
+
   return (
     <>
       <Grid
@@ -61,7 +63,11 @@ const SinglePost = (props) => {
         <Grid item columnSpacing={1} xs={12} className={classes.main} >
           {post ? (
             <>
-              <Post id={post?._id} title={post?.title} content={post?.body} userId={post.User_Id?._id} data={post?.createdAt}/>
+              <Post id={post?._id} title={post?.title} content={post?.body}
+               userId={post.User_Id?._id} data={post?.createdAt}  
+               likes={post.likes}
+               imagePost={post.postPicture}
+               />
             </>
           ) : (
             <>

@@ -1,25 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../Header/Header'
 import Footer from '../Footer/Footer'
 import { createTheme , ThemeProvider} from '@mui/material/styles';
-import { brown, green } from '@mui/material/colors';
+import { blue,  red } from '@mui/material/colors';
 const Template = ({children}) => {
-  const [Darkmode, setDarkmode] = useState(false);
+  const [Darkmode, setDarkmode] = useState(JSON.parse(localStorage.getItem('Darkmode'))||false);
   const theme = createTheme({
 
     palette: {
   
       primary: {
   
-        main: green[600]
+        main: blue[400]
       },
       secondary:{
   
-        main :brown[600]
+        main :red[100]
       },
       mode :Darkmode ?"dark" :"light"
     }
   });
+
+  useEffect(() => {
+    
+    localStorage.setItem('Darkmode',JSON.stringify(Darkmode))
+  
+  }, [Darkmode]);
   return (
     <>
     <ThemeProvider theme={theme}>

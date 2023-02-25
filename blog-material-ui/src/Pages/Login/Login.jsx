@@ -8,7 +8,7 @@ import { useTheme } from "@mui/material/styles";
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import { Box } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import requests from "./../../apis/login/requests";
@@ -234,6 +234,18 @@ const Register = (props) => {
           >
             <p> &nbsp; Don't have an account? &nbsp;</p>
             <Link to="/register">Register</Link>
+
+          </Grid>
+          <Grid
+            container
+            justifyContent= "center"
+            
+          >
+             <Box>
+        <Grid container justifyContent="center" alignItems="center" sx={{marginBottom:"50px"}}>
+        <NavLink to="/sendpasswordresetemail">Forgot Password ?</NavLink>
+          </Grid>
+          </Box>
 
           </Grid>
 

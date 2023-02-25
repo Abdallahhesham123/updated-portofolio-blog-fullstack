@@ -126,7 +126,19 @@ const RestoreRole =  async(id) => {
               color="primary"
               sx={{
                 display: { sm: "block" },
+                padding: "0.5rem",
+                margin: "0.5rem",
+
+                '&:hover': {
+                 backgroundColor: '#f59e0b',
+                  boxShadow: 'none',
+                },
+                '&:active': {
+                  boxShadow: 'none',
+                  backgroundColor: 'red',
+                },
               }}
+
             >
               <MuiLink
                 component={Link}
@@ -145,7 +157,19 @@ const RestoreRole =  async(id) => {
               color="primary"
               sx={{
                 display: { sm: "block" },
+                padding: "0.5rem",
+                margin: "0.5rem",
+
+                '&:hover': {
+                  backgroundColor: '#f59e0b',
+                  boxShadow: 'none',
+                },
+                '&:active': {
+                  boxShadow: 'none',
+                  backgroundColor: 'red',
+                },
               }}
+
             >
               <MuiLink
                 component={Link}
@@ -164,7 +188,19 @@ const RestoreRole =  async(id) => {
               color="primary"
               sx={{
                 display: { sm: "block" },
+                padding: "0.5rem",
+                margin: "0.5rem",
+
+                '&:hover': {
+                  backgroundColor: '#f59e0b',
+                  boxShadow: 'none',
+                },
+                '&:active': {
+                  boxShadow: 'none',
+                  backgroundColor: 'red',
+                },
               }}
+
             >
               <MuiLink
                 component={Link}
@@ -222,10 +258,20 @@ const RestoreRole =  async(id) => {
                           color="error"
                           onClick={() => deleteAnItem(user?._id)}
                           sx={{
-                            // display: { sm: "block" },
-                            marginRight: "10px",
-                            width: "20px",
+                            display: { sm: "block" },
+                            padding: "0.5rem",
+                            // margin: "0.5rem",
+        
+                            '&:hover': {
+                              backgroundColor: '#f44336',
+                              boxShadow: 'none',
+                            },
+                            '&:active': {
+                              boxShadow: 'none',
+                              backgroundColor: 'red',
+                            },
                           }}
+        
                         >
                           DELETE
                         </Button>
@@ -236,10 +282,20 @@ const RestoreRole =  async(id) => {
                           variant="contained"
                           color="primary"
                           sx={{
-                            // display: { sm: "block"  },
-                            marginRight: "10px",
-                            width: "20px",
+                            display: { sm: "block" },
+                            padding: "0.5rem",
+                            margin: "0 0.3rem",
+        
+                            '&:hover': {
+                              backgroundColor: '#f59e0b',
+                              boxShadow: 'none',
+                            },
+                            '&:active': {
+                              boxShadow: 'none',
+                              backgroundColor: 'red',
+                            },
                           }}
+        
                         >
                           <MuiLink
                             component={Link}
@@ -260,9 +316,20 @@ const RestoreRole =  async(id) => {
                           variant="contained"
                           color="secondary"
                           sx={{
-                            // display: { sm: "block"  },
-                            width: "20px",
+                            display: { sm: "block" },
+                            padding: "0.5rem",
+                            // margin: "0.5rem",
+        
+                            '&:hover': {
+                              backgroundColor: '#f59e0b',
+                              boxShadow: 'none',
+                            },
+                            '&:active': {
+                              boxShadow: 'none',
+                              backgroundColor: 'red',
+                            },
                           }}
+        
                           onClick={()=>RestoreRole(user?._id)}
                         >
 
@@ -275,9 +342,20 @@ const RestoreRole =  async(id) => {
                           variant="contained"
                           color="secondary"
                           sx={{
-                            // display: { sm: "block"  },
-                            width: "20px",
+                            display: { sm: "block" },
+                            padding: "0.5rem",
+                            // margin: "0.5rem",
+        
+                            '&:hover': {
+                              backgroundColor: '#f59e0b',
+                              boxShadow: 'none',
+                            },
+                            '&:active': {
+                              boxShadow: 'none',
+                              backgroundColor: 'red',
+                            },
                           }}
+        
                           onClick={()=>changeRole(user?._id)}
                         >
 

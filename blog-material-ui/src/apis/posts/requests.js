@@ -2,7 +2,8 @@ import endpoint from "./endpoint"
 const {getAll,getOnePost,deleteOnePost,addOnePost ,updatepost,getAllpostsdash,acceptedpost,
   removepost,
   restoreComment,
-  searchpost
+  searchpost,
+  likerequest
 
 }= endpoint;
 const requests = {
@@ -101,6 +102,15 @@ const requests = {
   },
   searchpost: async (title) => {
     const {url,options} = searchpost(title);
+    const response = await fetch(url,options);
+    const data = await response.json();
+
+    return new Promise((resolve, reject) => {
+      data ? resolve(data) : reject(new Error("undefined"));
+    });
+  },
+  likerequest: async (id) => {
+    const {url,options} = likerequest(id);
     const response = await fetch(url,options);
     const data = await response.json();
 

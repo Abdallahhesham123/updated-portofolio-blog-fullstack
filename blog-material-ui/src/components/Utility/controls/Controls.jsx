@@ -24,7 +24,7 @@ const Controls = (props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteTrigger, setdeleteTrigger] = useState(false);
   const deleteAnItem = () => {
-    console.log(`The post with id ${postID} will be deleted`);
+    // console.log(`The post with id ${postID} will be deleted`);
     setDialogOpen(false);
     setdeleteTrigger(true)
   };

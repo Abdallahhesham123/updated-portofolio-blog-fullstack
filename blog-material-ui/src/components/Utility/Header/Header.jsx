@@ -32,7 +32,17 @@ color:"black !important"
   img:{
     width:"100% !important",
     height:"100% !important"
-  }
+  },
+  Button: {
+    '&:hover': {
+      backgroundColor: '#ffffff',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      boxShadow: 'none',
+      backgroundColor: 'red',
+    },
+  },
 }
 })
 
@@ -56,7 +66,7 @@ const Header = (props) => {
     };
 
     FetchUsers(Userdata?.id);
-  }, [Userdata?.id]);
+  }, [Userdata?.id,User]);
   return (
     <Box sx={{ flexGrow: 1, bgColor: "primary" }}>
       <AppBar position="static">
@@ -122,7 +132,18 @@ const Header = (props) => {
                     display: { sm: "block" },
                     padding: "0.5rem",
                     margin: "0.5rem",
+
+                    '&:hover': {
+                      backgroundColor: '#ffffff',
+                      boxShadow: 'none',
+                    },
+                    '&:active': {
+                      boxShadow: 'none',
+                      backgroundColor: 'red',
+                    },
                   }}
+
+                 
                   
                   
                 >
@@ -134,54 +155,33 @@ const Header = (props) => {
                 </Button>
               </Grid>
               <Grid item>
+                <Grid container sx={{justifyContent:"center", alignItems:"center"}}>
+                    <Grid item sx={{marginRight:"5px",textAlign:"center"}} >
 
-              <Tooltip title="Open settings">
-              <Link to={`/profile/${Userdata?.id}`}>
-             
-              <Avatar alt="Remy Sharp" src={User?.profilePicture ? PF+User.profilePicture :PF+`person/noAvatar.png`}/> 
-              
-              
-              </Link>
-            </Tooltip>
+                        <Typography  variant="inherit" component="h5">
+                        {User?.username}
+                        </Typography>
+                        <Typography  variant="inherit" component="h6">
+                        {User?.email}
+                        </Typography>
+                    </Grid>
+
+                    <Grid item>
+
+                    <Tooltip title="Open settings">
+ 
+
+ <Link to={`/profile/${Userdata?.id}`}>
+
+ <Avatar alt="Remy Sharp" src={User?.profilePicture ? PF+User.profilePicture :PF+`person/noAvatar.png`}/> 
+ </Link>
+</Tooltip>
+                    </Grid>
+                </Grid>
+  
+
               </Grid>
-              {/* <Grid item>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  sx={{
-                    display: { sm: "block" },
-                    padding: "0.5rem",
-                    margin: "0.5rem",
-                  }}
-                >
 
-              <MuiLink component={Link} to="/register" variant="button" underline="none" color="inherit">
-
-              Register
-
-              </MuiLink>
-                 
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  sx={{
-                    display: { sm: "block" },
-                    padding: "0.5rem",
-                    margin: "0.5rem",
-                  }}
-                >
-
-              <MuiLink component={Link} to="/login" variant="button" underline="none" color="inherit">
-
-              Login
-
-              </MuiLink>
-                 
-                </Button>
-              </Grid> */}
 
               
             </Grid>

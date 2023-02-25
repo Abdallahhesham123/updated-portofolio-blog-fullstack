@@ -6,12 +6,34 @@ import requests from "./../../../apis/posts/requests"
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from "react-router-dom";
+import { makeStyles } from "@mui/styles";
+import CancelIcon from '@mui/icons-material/Cancel';
+import { Grid } from "@mui/material";
+import axios from "axios";
+const useStyles = makeStyles({
+  input: {
+    backgroundColor:"red"
+  },
+
+  button: {
+    backgroundColor:"greenyellow"
+  },
+  img:{
+    width:"30%",
+    height:"30%",
+  }
+
+});
 const UpdatePost = (props) => {
   const { postData } = props;
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const classes = useStyles(props);
+  const [file, setFile] = useState(null);
   const fetchedPost = postData || {};
   const [values, setValues] = useState({
     title: fetchedPost.title || "",
     body: fetchedPost.body || "",
+    postPicture: fetchedPost.postPicture || "",
   });
   const [errors, setErrors] = useState({});
   let navigate = useNavigate();
@@ -60,7 +82,18 @@ const UpdatePost = (props) => {
   useEffect(()=>{
 
 const sendPost= async(id,dataToSend)=>{
+  if (file) {
 
+    const data = new FormData();
+    const fileName = Date.now() + file.name;
+    data.append("name", fileName);
+    data.append("file", file);
+    values.postPicture = `post/${fileName}`;
+    try {
+      await axios.post("/blog", data);
+    } catch (err) {}
+  }
+  
   const results= await requests.updatepost(id,dataToSend );
 
 
@@ -155,6 +188,67 @@ if (submitted) {
         helperText={errors.body && errors.body}
         fullWidth
       />
+            <Grid container justifyContent={"space-between"}>
+
+<Grid item>
+  <input
+
+className={classes.input}
+style={{ display: 'none' }}
+id="raised-button-file"
+multiple
+type="file"
+accept=".png,.jpeg,.jpg"
+onChange={(e) => setFile(e.target.files[0])}
+/>
+<label htmlFor="raised-button-file">
+<Button variant="raised" component="span" 
+
+className={classes.button}
+>
+Upload-IMAGE
+</Button>
+</label> 
+
+
+  </Grid>
+  <Grid item >
+<Grid container>
+
+
+
+  
+</Grid>
+{file ? (
+
+<Grid item>
+<div className="shareImgContainer">
+      <img className={classes.img} src={URL.createObjectURL(file)} alt="" />
+      <CancelIcon className="shareCancelImg"  onClick={() => setFile(null)} />
+    </div> 
+</Grid>
+
+  ):
+  <Grid item>
+
+<div className="shareImgContainer">
+  <img className={classes.img} src={PF + values?.postPicture} alt="" />
+  <CancelIcon className="shareCancelImg"  onClick={() => setFile(null)} />
+</div>
+
+
+  </Grid>
+  
+
+  
+  }
+
+
+
+  </Grid>
+
+</Grid>
+
       <Button fullWidth variant="contained" type="submit">
         Submit
       </Button>

@@ -99,6 +99,17 @@ const Trashboard = (props) => {
               color="primary"
               sx={{
                 display: { sm: "block" },
+                padding: "0.5rem",
+                margin: "0.5rem",
+
+                '&:hover': {
+                  backgroundColor: '#f59e0b',
+                  boxShadow: 'none',
+                },
+                '&:active': {
+                  boxShadow: 'none',
+                  backgroundColor: 'red',
+                },
               }}
             >
               <MuiLink
@@ -158,10 +169,18 @@ const Trashboard = (props) => {
                           color="warning"
                           onClick={() => HardDeleted(user?._id)}
                           sx={{
-                            // display: { sm: "block" },
-                            marginRight: "10px",
-                            width: "30px !important",
-                            padding:"5px !important"
+                            display: { sm: "block" },
+                            padding: "0.3rem",
+                            marginRight: "0.3rem",
+            
+                            '&:hover': {
+                              backgroundColor: '#f59e0b',
+                              boxShadow: 'none',
+                            },
+                            '&:active': {
+                              boxShadow: 'none',
+                              backgroundColor: 'red',
+                            },
                           }}
                         >
                           REMOVE
@@ -175,9 +194,17 @@ const Trashboard = (props) => {
                           onClick={() => restore(user?._id)}
                           sx={{
                             display: { sm: "block" },
-                            marginRight: "10px",
-                            width: "30px !important",
-                            padding:"5px !important"
+                            padding: "0.3rem",
+                           
+            
+                            '&:hover': {
+                              backgroundColor: '#f59e0b',
+                              boxShadow: 'none',
+                            },
+                            '&:active': {
+                              boxShadow: 'none',
+                              backgroundColor: 'red',
+                            },
                           }}
                         >
                           RESTORE
@@ -193,7 +220,13 @@ const Trashboard = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-    
+      {/* <Dialog
+        title={`delete an item  by Admin`}
+        text="are you sure you want to act this Order?"
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        onDialogConfirm={deleteAnItem}
+      /> */}
     
     </>
   )

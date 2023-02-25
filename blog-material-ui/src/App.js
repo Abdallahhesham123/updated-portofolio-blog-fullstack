@@ -17,6 +17,8 @@ import Dashboard from './Pages/dashboard/Dashboard.jsx';
 import Trashboard from './Pages/dashboard/Trashboard.jsx';
 import PostsDash from './Pages/dashboard/PostsDash.jsx';
 import ResetPassword from './Pages/ResetPassword/ResetPassword.jsx';
+import SendingEmail from './Pages/forgetpassword/SendingEmail.jsx';
+import ResetPasswordGeneration from './Pages/forgetpassword/ResetPasswordGeneration.jsx';
 function App() {
   let routes = createBrowserRouter([
   
@@ -31,7 +33,8 @@ function App() {
       { path: "/trashboard", element:<ProtectedRoute ><Template><Trashboard /></Template></ProtectedRoute>},
       { path: "/postsdash", element:<ProtectedRoute ><Template><PostsDash /></Template></ProtectedRoute>},
       { path: "/resetpassword/:id", element:<ProtectedRoute ><Template><ResetPassword /></Template></ProtectedRoute>},
-     
+      { path: "/sendpasswordresetemail", element:<SendingEmail />},
+      { path: "reset-password/:id/:token", element:  <ResetPasswordGeneration/>},
       { path: "/register", element:  <Register/> },
       { path: "/login", element:  <Login/> },
 

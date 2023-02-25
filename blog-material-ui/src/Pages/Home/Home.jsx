@@ -192,6 +192,8 @@ title? <>
                         title={post.title}
                         content={post.body}
                         data={post.createdAt}
+                        likes={post.likes}
+                        imagePost={post.postPicture}
                       />
                     )}
                   </Grid>
@@ -221,6 +223,9 @@ title? <>
                         title={post.title}
                         content={post.body}
                         data={post.createdAt}
+                        likes={post.likes}
+                        imagePost={post.postPicture}
+                        page={page}
                       />
                     )}
                   </Grid>

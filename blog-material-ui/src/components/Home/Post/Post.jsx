@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -16,6 +16,7 @@ import Controls from '../../Utility/controls/Controls';
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import { format } from "timeago.js";
+import TouchAppIcon from '@mui/icons-material/TouchApp';
 const useStyles = makeStyles({
 
   root:{
@@ -35,14 +36,46 @@ marginRight:"1rem",
 })
 const Post = (props) => {
   const classes = useStyles(props)
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   let navigate = useNavigate();
     const {Userdata} = useContext(AuthContext)
-  const {id,title, content ,data,snippet ,userId}= props;
+
+
+  const {id,title, content ,data,snippet ,userId,likes,imagePost ,page}= props;
+
+  const [like, setlike] = useState(likes.length)
+  // const [likelength, setlikelength] = useState(null)
+  const [islike, setIsLike] = useState(false)
   const [notification, setNotification] = useState({
     show: false,
     type: "warning",
     text: "",
   });
+
+  // useEffect(() => {
+  //   setpage(page)
+  //   const FetchPosts = async (page1) => {
+  //   const dataFetch = await requests.getAll(page1);
+  //   const { data } = dataFetch;
+  //   setposts(data)
+  //   }
+  //   FetchPosts(page1);
+  // }, [Userdata.id, likes]);
+  useEffect(() => {
+    setIsLike(likes.includes(Userdata.id));
+  }, [Userdata.id, likes]);
+  const likeHandler=async(id)=>{
+    try {
+      const res = await requests.likerequest(id);
+
+      console.log(res);
+    
+    } catch (error) {
+      
+    }
+    setlike(islike ? like - 1 : like + 1)
+    setIsLike(!islike)
+  }
   const restoreComment =async(id)=>{
     const results = await requests.restoreComment(id);
     if (results) {
@@ -84,11 +117,13 @@ const Post = (props) => {
 }
 
   <CardContent>
-  {/* <CardMedia
+  <CardMedia
  className={classes.image}
-  image="http://via.placeholder.com/150/FF0000/FFFFFF"
+  image={ 
+    imagePost ? PF + imagePost
+    : PF + `post/1.jpeg`}
   title="green iguana"
-/> */}
+/>
     <Stack sx={{ width: "100%" ,marginBottom:"30px"}} spacing={2}>
       {notification.show && (
         <Alert severity={notification.type} variant="filled">
@@ -107,6 +142,7 @@ Userdata.role === 'admin' &&(
           >
             <ModeEditIcon fontSize="small" sx={{marginBottom:"10px"}}/>
           </IconButton>
+ 
   </>
 )
 
@@ -134,6 +170,16 @@ Userdata.role === 'admin' &&(
             Read More
           </MuiLink>
         </Button>
+        <IconButton
+            color="primary"
+            size="small"
+            onClick={() => likeHandler(id)}
+          >
+            <TouchAppIcon fontSize="small" sx={{marginBottom:"10px"}}/>
+          </IconButton>
+                <Typography gutterBottom variant="body1" component="p" sx={{color:"red"}}>
+                { like }
+                </Typography>
 </CardActions>
 
 
@@ -152,6 +198,16 @@ Userdata.role === 'admin' &&(
             Read his Profile
           </MuiLink> 
         </Button>
+        <IconButton
+            color="primary"
+            size="small"
+            onClick={() => likeHandler(id)}
+          >
+            <TouchAppIcon fontSize="small" sx={{marginBottom:"10px"}}/>
+          </IconButton>
+                <Typography gutterBottom variant="body1" component="p" sx={{color:"blue"}}>
+                  {like }
+                </Typography>
 </CardActions>
   
   
