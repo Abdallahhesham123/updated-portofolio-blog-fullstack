@@ -5,10 +5,28 @@ import validate from "./../../Validition/post";
 import requests from "./../../../apis/posts/requests"
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-
+import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
-const AddPost = () => {
-  
+import CancelIcon from '@mui/icons-material/Cancel';
+import { Grid } from "@mui/material";
+import axios from "axios";
+const useStyles = makeStyles({
+  input: {
+    backgroundColor:"red"
+  },
+
+  button: {
+    backgroundColor:"greenyellow"
+  },
+  img:{
+    width:"30%",
+    height:"30%",
+  }
+
+});
+const AddPost = (props) => {
+  const classes = useStyles(props);
+  const [file, setFile] = useState(null);
   let navigate = useNavigate();
   const [values, setValues] = useState({ title: "", body: "" });
   const [errors, setErrors] = useState({});
@@ -57,7 +75,18 @@ const AddPost = () => {
   useEffect(()=>{
 
 const sendPost= async(dataToSend )=>{
+  if (file) {
 
+    const data = new FormData();
+    const fileName = Date.now() + file.name;
+    data.append("name", fileName);
+    data.append("file", file);
+    values.postPicture = `post/${fileName}`;
+    try {
+      await axios.post("/blog", data);
+    } catch (err) {}
+  }
+  
   const results= await requests.addOnePost(dataToSend );
 
 
@@ -152,6 +181,44 @@ if (submitted) {
         helperText={errors.body && errors.body}
         fullWidth
       />
+      <Grid container justifyContent={"space-between"}>
+
+      <Grid item>
+        <input
+ 
+ className={classes.input}
+ style={{ display: 'none' }}
+ id="raised-button-file"
+ multiple
+ type="file"
+ accept=".png,.jpeg,.jpg"
+ onChange={(e) => setFile(e.target.files[0])}
+/>
+<label htmlFor="raised-button-file">
+ <Button variant="raised" component="span" 
+
+ className={classes.button}
+ >
+   Upload-IMAGE
+ </Button>
+</label> 
+
+
+        </Grid>
+        <Grid item>
+
+        {file && (
+          <div className="shareImgContainer">
+            <img className={classes.img} src={URL.createObjectURL(file)} alt="" />
+            <CancelIcon className="shareCancelImg"  onClick={() => setFile(null)} />
+          </div>
+        )}
+
+        </Grid>
+
+      </Grid>
+
+
       <Button fullWidth variant="contained" type="submit">
         Submit
       </Button>

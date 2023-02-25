@@ -28,9 +28,19 @@ const initApp = (app, express) => {
         },
       });
 
+      const poststorage = multer.diskStorage({
+        destination: (req, file, cb) => {
+          cb(null, "public/images/post/");
+        },
+        filename: (req, file, cb) => {
+          cb(null, req.body.name);
+        },
+      });
+
+
       const upload = multer({ storage: storage });
 
-
+      const postupload = multer({ storage: poststorage });
 
     app.get('/', (req, res) => res.send('Hello World!'))
 
@@ -38,7 +48,7 @@ const initApp = (app, express) => {
     app.use('/auth', authRouter)
     // app.use('/user', userRouter)
     app.use('/user', upload.single("file"), userRouter)
-    app.use('/blog', blogRouter)
+    app.use('/blog', postupload.single("file"), blogRouter)
 
     app.use("*" , (req,res)=>{
         return res.json({message:"404 Page Not Found"})

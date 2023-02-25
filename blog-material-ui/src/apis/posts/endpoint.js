@@ -127,8 +127,20 @@ const endpoints = {
       },
     };
   },
-
- 
+  likerequest: (id) => {
+    return {
+      url: `/blog/likepost/${id}`,
+      options: {
+        method: "PUT",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+      },
+    };
+  },
+  
   
 };
 

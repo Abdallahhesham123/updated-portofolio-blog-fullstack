@@ -33,7 +33,7 @@ if(!decoded?.id || !decoded?.isLoggedIn){
 
 const authUser = await UserModel.findById(decoded.id).select("username email role")
 if(!authUser){
-  return res.status(404).json({message:"Not Register Account"});
+  return res.status(404).json({message:"you arenot authorized"});
 
 }
 

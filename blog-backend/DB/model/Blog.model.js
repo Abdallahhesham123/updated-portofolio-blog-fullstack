@@ -14,7 +14,15 @@ const blogSchema = new mongoose.Schema(
       minlength: [10, "Too short body"],
       maxlength: [2000, "Too long body"],
     },
-
+    likes: {
+      type: Array,
+      default: [],
+    },
+    
+    postPicture: {
+      type: String,
+      default: ""
+    },
     User_Id: {
       type: mongoose.Schema.ObjectId,
       ref: "User",

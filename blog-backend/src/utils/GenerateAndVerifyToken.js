@@ -5,7 +5,7 @@ const {JWT_SECRET_KEY ,BEARER_KEY} = process.env;
 export const generateToken= ({payload={},signature=JWT_SECRET_KEY ,expiresIn = 60*60}={})=>{
   
 const token =jwt.sign(payload,signature,{expiresIn:parseInt(expiresIn)})
-console.log(token);
+// console.log(token);
 
 return token
 

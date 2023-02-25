@@ -18,4 +18,9 @@ router.get("/:id" , AuthUser, blogController.getCommentById)
 router.put("/updateBlog/:id" ,AuthUser, blogController.updateComment)
 router.delete("/deleteBlog/:id" ,AuthUser, blogController.deleteComment)
 
+
+
+//like-dislike-post
+router.put("/likepost/:id",AuthUser, blogController.likepost);
+
 export default  router
