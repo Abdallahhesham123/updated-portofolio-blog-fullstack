@@ -88,6 +88,7 @@ const Home = (props) => {
   const [postsSearch, setpostsSearch] = useState([]);
   const [page, setpage] = useState(1);
   const [noOfpage, setNoOfpage] = useState(1);
+
   const { Userdata } = useContext(AuthContext);
   useEffect(() => {
     const FetchPosts = async (page) => {
@@ -105,9 +106,14 @@ const Home = (props) => {
       );
       setNoOfpage(pagesCount);
       setpage(UserPage);
+
+     
+      localStorage.setItem('pagecountuser',Number(pagesCount))
     };
-    FetchPosts(page);
-  }, [page]);
+    FetchPosts(Number(localStorage.getItem('pagenouser')));
+    // window.location.reload();
+    console.log("hello world");
+  }, [ page]);
   useEffect(() => {
     
       const { data } = search;
@@ -226,6 +232,7 @@ title? <>
                         likes={post.likes}
                         imagePost={post.postPicture}
                         page={page}
+                        userId={post.User_Id?._id}
                       />
                     )}
                   </Grid>
@@ -244,12 +251,13 @@ title? <>
           <Grid item xs={12}>
             <Stack spacing={2} className={classes.pagination}>
               <Pagination
-                count={noOfpage}
+              
+                count={Number(localStorage.getItem('pagecountuser') )||noOfpage}
                 variant="outlined"
-                defaultPage={1}
+                defaultPage={1 }
                 color="primary"
                 shape="rounded"
-                onChange={(e, value) => setpage(value)}
+                onChange={(e, value) => setpage( localStorage.setItem('pagenouser',Number(value)))}
               />
             </Stack>
           </Grid>

@@ -25,6 +25,9 @@ export let AuthContext= createContext(0);
       let LogOut= ()=>{
 
         localStorage.removeItem("token")
+        localStorage.removeItem("pagecountuser")
+        localStorage.removeItem("pagenouser")
+        localStorage.removeItem("Darkmode")
         setdataUser(null)
         return <Navigate to="/login"/>
       }

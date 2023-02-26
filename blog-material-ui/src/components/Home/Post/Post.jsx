@@ -41,7 +41,7 @@ const Post = (props) => {
     const {Userdata} = useContext(AuthContext)
 
 
-  const {id,title, content ,data,snippet ,userId,likes,imagePost ,page}= props;
+  const {id,title, content ,data,snippet ,userId,likes,imagePost}= props;
 
   const [like, setlike] = useState(likes.length)
   // const [likelength, setlikelength] = useState(null)
@@ -52,18 +52,11 @@ const Post = (props) => {
     text: "",
   });
 
-  // useEffect(() => {
-  //   setpage(page)
-  //   const FetchPosts = async (page1) => {
-  //   const dataFetch = await requests.getAll(page1);
-  //   const { data } = dataFetch;
-  //   setposts(data)
-  //   }
-  //   FetchPosts(page1);
-  // }, [Userdata.id, likes]);
+
   useEffect(() => {
-    setIsLike(likes.includes(Userdata.id));
-  }, [Userdata.id, likes]);
+    setIsLike(likes.includes(userId));
+    // console.log(likes.length);
+  }, [userId, likes,data,id]);
   const likeHandler=async(id)=>{
     try {
       const res = await requests.likerequest(id);
