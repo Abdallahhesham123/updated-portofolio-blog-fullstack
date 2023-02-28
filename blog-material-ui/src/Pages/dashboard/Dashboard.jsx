@@ -8,6 +8,9 @@ import { makeStyles } from "@mui/styles";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import { AuthContext } from "./../../context/Store";
+
+
+import Dialog from "./../../components/Utility/Dialog/Dialog";
 import {
   Paper,
   TableContainer,
@@ -26,6 +29,9 @@ const useStyles = makeStyles({
 const Dashboard = (props) => {
   const classes = useStyles(props);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleteTrigger, setdeleteTrigger] = useState(false);
+  const [deleteUserId, setdeleteUserId] = useState("");
   const {Userdata} = useContext(AuthContext)
   let navigate = useNavigate();
   const [users, setusers] = useState([]);
@@ -34,19 +40,41 @@ const Dashboard = (props) => {
     type: "warning",
     text: "",
   });
-  const deleteAnItem = async (id) => {
-    const results = await requests.deleteOneUser(id);
-    console.log(results);
-
-    if (results) {
-      setNotification({
-        show: true,
-        type: "warning",
-        text: `${results.message}`,
-      });
-      goToHome();
-    }
+  const deleteuser = () => {
+   
+    setDialogOpen(false);
+    setdeleteTrigger(true)
   };
+  const deleteAnItem = async (id) => {
+    setdeleteUserId(id)
+      setDialogOpen(true)
+    };
+
+
+    useEffect(() => {
+
+      const TrashUser = async(id)=>{
+
+        const results = await requests.deleteOneUser(id);
+        console.log(results);
+    
+        if (results) {
+          setNotification({
+            show: true,
+            type: "warning",
+            text: `${results.message}`,
+          });
+          goToHome();
+        }
+        };
+        if(deleteTrigger){
+        
+ 
+          TrashUser(deleteUserId )
+        }
+
+      }, [deleteUserId ,deleteTrigger]);
+
   useEffect(() => {
     const FetchPosts = async () => {
       const dataFetch = await requests.getAllUser();
@@ -62,10 +90,7 @@ const Dashboard = (props) => {
     }, 2000);
   };
   const changeRole =  async(id) => {
-// var result = confirm("Want to delete?");
-// if (result) {
-//     //Logic to delete the item
-// }
+
       const dataFetch = await requests.changeRole(id);
     
 
@@ -374,6 +399,13 @@ const RestoreRole =  async(id) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Dialog
+        title={`delete an item  by  Admin`}
+        text="are you sure you want to delete this User?"
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        onDialogConfirm={deleteuser}
+      />
     </>
   );
 };

@@ -37,7 +37,7 @@ const messages = {
         )
     }, 
     password: (val) =>{
-        const password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+        const password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
         return(
 
             password.test(val) ? "pass" :messages.password(val)

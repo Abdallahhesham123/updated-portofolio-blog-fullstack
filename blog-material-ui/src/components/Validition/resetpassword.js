@@ -19,7 +19,7 @@ const messages = {
   const rules = {
     required: (val) => (val ? "pass" : messages.required),
     oldpassword: (val) =>{
-        const oldpassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+        const oldpassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
         return(
 
             oldpassword.test(val) ? "pass" :messages.oldpassword(val)
@@ -28,7 +28,7 @@ const messages = {
     }, 
 
     password: (val) =>{
-        const password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+        const password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
         return(
 
             password.test(val) ? "pass" :messages.password(val)

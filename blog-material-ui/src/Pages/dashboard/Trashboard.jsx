@@ -8,6 +8,7 @@ import { Button, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
+import Dialog from "./../../components/Utility/Dialog/Dialog";
 import {
   Paper,
   TableContainer,
@@ -28,24 +29,50 @@ const Trashboard = (props) => {
     const classes = useStyles(props);
     let navigate = useNavigate();
     const [users, setusers] = useState([]);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [deleteTrigger, setdeleteTrigger] = useState(false);
+    const [deleteUserId, setdeleteUserId] = useState("");
     const [notification, setNotification] = useState({
       show: false,
       type: "warning",
       text: "",
     });
-    const HardDeleted = async (id) => {
-        const results = await requests.deletefromdatabase(id);
-        console.log(results);
-    
-        if (results) {
-          setNotification({
-            show: true,
-            type: "error",
-            text: `${results.message}`,
-          });
-          goToHome();
-        }
+    const deleteuserHard = () => {
+   
+      setDialogOpen(false);
+      setdeleteTrigger(true)
+    };
+    const deleteAnItemHarded = async (id) => {
+      setdeleteUserId(id)
+        setDialogOpen(true)
       };
+
+
+      useEffect(() => {
+
+        const HardDeletedUser = async(id)=>{
+            const results = await requests.deletefromdatabase(id);
+            console.log(results);
+        
+            if (results) {
+              setNotification({
+                show: true,
+                type: "error",
+                text: `${results.message}`,
+              });
+              goToHome();
+            }
+         
+          };
+          if(deleteTrigger){
+          
+   
+            HardDeletedUser(deleteUserId )
+          }
+  
+        }, [deleteUserId ,deleteTrigger]);
+  
+ 
       const restore = async (id) => {
         const results = await requests.restoretodatabase(id);
         console.log(results);
@@ -167,7 +194,7 @@ const Trashboard = (props) => {
                         <Button
                           variant="contained"
                           color="warning"
-                          onClick={() => HardDeleted(user?._id)}
+                          onClick={() => deleteAnItemHarded(user?._id)}
                           sx={{
                             display: { sm: "block" },
                             padding: "0.3rem",
@@ -220,13 +247,13 @@ const Trashboard = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <Dialog
+      <Dialog
         title={`delete an item  by Admin`}
-        text="are you sure you want to act this Order?"
+        text="Be Careful ,you will Delete This User From Database Are You Sure?"
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
-        onDialogConfirm={deleteAnItem}
-      /> */}
+        onDialogConfirm={deleteuserHard}
+      />
     
     </>
   )

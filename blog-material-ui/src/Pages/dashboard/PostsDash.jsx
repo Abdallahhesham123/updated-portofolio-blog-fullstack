@@ -8,6 +8,7 @@ import { Button, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
+import Dialog from "./../../components/Utility/Dialog/Dialog";
 import {
   Paper,
   TableContainer,
@@ -26,6 +27,10 @@ const useStyles = makeStyles({
 
 const PostsDash = (props) => {
     const classes = useStyles(props);
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [deleteTrigger, setdeleteTrigger] = useState(false);
+    const [deletePostId, setdeletePostId] = useState("");
     let navigate = useNavigate();
     const [posts, setposts] = useState([]);
     const [notification, setNotification] = useState({
@@ -33,19 +38,41 @@ const PostsDash = (props) => {
       type: "warning",
       text: "",
     });
-    const Removepost = async (id) => {
-        const results = await requests.removepost(id);
-        // console.log(results);
-    
-        if (results) {
-          setNotification({
-            show: true,
-            type: "error",
-            text: `${results.message}`,
-          });
-          goToHome();
-        }
+    const deletepostHard = () => {
+   
+      setDialogOpen(false);
+      setdeleteTrigger(true)
+    };
+    const deleteAnItemHarded = async (id) => {
+      setdeletePostId(id)
+        setDialogOpen(true)
       };
+
+      useEffect(() => {
+
+        const HardDeletedPost= async(id)=>{
+          const results = await requests.removepost(id);
+          // console.log(results);
+      
+          if (results) {
+            setNotification({
+              show: true,
+              type: "error",
+              text: `${results.message}`,
+            });
+            goToHome();
+          }
+         
+          };
+          if(deleteTrigger){
+          
+   
+            HardDeletedPost(deletePostId )
+          }
+  
+        }, [deletePostId ,deleteTrigger]);
+
+
       const accepted = async (id) => {
         const results = await requests.acceptedpost(id);
         // console.log(results);
@@ -76,7 +103,9 @@ const PostsDash = (props) => {
         }, 2000);
       };
   return (
-    <TableContainer
+
+    <>
+        <TableContainer
     component={Paper}
     sx={{ maxWidth: "90%", m: "10px auto", p: 2, maxHeight: "600px" }}
   >
@@ -130,6 +159,7 @@ const PostsDash = (props) => {
           <TableCell align="center">Id</TableCell>
           <TableCell align="center">Title</TableCell>
           <TableCell align="center">Description</TableCell>
+          <TableCell align="center">PostPicture</TableCell>
           <TableCell align="center">CreatedBy</TableCell>
           <TableCell align="center">Action</TableCell>
         </TableRow>
@@ -144,6 +174,18 @@ const PostsDash = (props) => {
               <TableCell align="center">{index + 1}</TableCell>
               <TableCell align="center">{post.title}</TableCell>
               <TableCell align="center">{post.body}</TableCell>
+              <TableCell align="center">
+                    <img
+                      alt="no-profile"
+                      src={
+                        post?.postPicture
+                          ? PF + post.postPicture
+                          : PF + `person/noAvatar.png`
+                      }
+                      className={classes.image}
+                    />
+                  </TableCell>
+              
               <TableCell align="center">{post.User_Id.username}</TableCell>
               <TableCell align="center" style={{ width: 200}}>
                 <Grid container>
@@ -151,7 +193,7 @@ const PostsDash = (props) => {
                     <Button
                       variant="contained"
                       color="warning"
-                      onClick={() => Removepost(post?._id)}
+                      onClick={() => deleteAnItemHarded(post?._id)}
                       sx={{
                         display: { sm: "block" },
                         padding: "0.3rem",
@@ -205,13 +247,14 @@ const PostsDash = (props) => {
     </Table>
   </TableContainer>
 
-      // <Dialog
-      //   title={`delete an item  by Admin`}
-      //   text="are you sure you want to act this Order?"
-      //   dialogOpen={dialogOpen}
-      //   setDialogOpen={setDialogOpen}
-      //   onDialogConfirm={HardDeleted}
-      // />
+      <Dialog
+        title={`delete an item  by Admin`}
+        text="Be Careful ,you will Delete This Post From Database Are You Sure?"
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        onDialogConfirm={deletepostHard}
+      />
+    </>
   )
 }
 
